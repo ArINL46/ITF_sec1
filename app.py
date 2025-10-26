@@ -142,11 +142,6 @@ def CookingMode():
             if st.button("✅ Finish"):
                 st.balloons()
                 st.success("🎉 เสร็จเรียบร้อย! พร้อมเสิร์ฟ!")
-                # รีเซ็ตกลับหน้า Home
-                st.session_state.page = "home"
-                st.session_state.step_index = 0
-                st.session_state.PickedMenu = None
-                st.rerun()
 
     # ปุ่มกลับหน้าเมนู
     if st.button("🏠 กลับหน้าเมนู"):
