@@ -116,7 +116,7 @@ def CookingMode():
     if "Image" in menu:
         st.image(menu["Image"], use_container_width=True)
     if "ImageCredit" in menu:
-        st.markdown(f"📷 Credit: [Link]({menu['ImageCredit']})")
+        st.markdown(f"📷 Credit: ({menu['ImageCredit']})")
 
 
     # ส่วนวัตถุดิบ
