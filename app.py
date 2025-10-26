@@ -152,7 +152,7 @@ def CookingMode():
     # ปุ่มกลับหน้าเมนู
     if st.button("🏠 กลับหน้าเมนู"):
         st.session_state.page = "home"
-        st.session_state.step_index = 0
+        st.session_state.step_index = None
         st.session_state.PickedMenu = None
         st.rerun()
 
