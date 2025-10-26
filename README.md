@@ -1,2 +1,0 @@
-Hello ITF
-# LAB_SEC1
