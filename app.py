@@ -112,6 +112,8 @@ def CookingMode():
     # เมนู
     menu = df[df["Name"] == st.session_state.PickedMenu].iloc[0]
     st.title(f"Cooking Mode: {menu['Name']}")
+    if "Image" in menu:
+        st.image(menu["Image"], use_column_width=True)
 
     # ส่วนวัตถุดิบ
     with st.expander("ดูวัตถุดิบทั้งหมด"):
