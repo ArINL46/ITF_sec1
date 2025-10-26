@@ -109,6 +109,44 @@ def RecipeStep(PickedMenu):
 
 def CookingMode():
     """This funtion run after click "Cooking Mode" button"""
+    menu = df[df["Name"] == st.session_state.PickedMenu].iloc[0]
+    st.title(f"🍳 Cooking Mode: {menu['Name']}")
+
+    # ส่วนวัตถุดิบ
+    with st.expander("ดูวัตถุดิบทั้งหมด"):
+        for item in menu["Ingredients"].values():
+            st.write(f"- {item}")
+
+    # จัดการ step
+    if "step_index" not in st.session_state:
+        st.session_state.step_index = 0
+
+    steps = menu["Recipe"]
+    current = st.session_state.step_index
+
+    st.subheader(f"Step {current + 1}/{len(steps)}")
+    st.info(steps[current])
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("⬅️ ขั้นก่อนหน้า", disabled=(current == 0)):
+            st.session_state.step_index -= 1
+            st.rerun()
+
+    with col2:
+        if st.button("➡️ ขั้นต่อไป"):
+            if current + 1 < len(steps):
+                st.session_state.step_index += 1
+                st.rerun()
+            else:
+                st.balloons()
+                st.success("🎉 เสร็จเรียบร้อย! พร้อมเสิร์ฟ!")
+                st.session_state.step_index = 0
+
+    if st.button("🏠 กลับหน้าเมนู"):
+        st.session_state.page = "home"
+        st.session_state.step_index = 0
+        st.rerun()
 
 if st.session_state.page == "home":
     HomePage()
