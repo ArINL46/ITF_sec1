@@ -108,45 +108,53 @@ def RecipeStep(PickedMenu):
         st.rerun()
 
 def CookingMode():
-    """This funtion run after click "Cooking Mode" button"""
+    """This function runs after clicking "Cooking Mode" button"""
+    # เมนู
     menu = df[df["Name"] == st.session_state.PickedMenu].iloc[0]
-    st.title(f"🍳 Cooking Mode: {menu['Name']}")
+    st.title(f"Cooking Mode: {menu['Name']}")
 
     # ส่วนวัตถุดิบ
     with st.expander("ดูวัตถุดิบทั้งหมด"):
         for item in menu["Ingredients"].values():
             st.write(f"- {item}")
 
-    # จัดการ step
+    # ขั้นตอนทำอาหาร
     if "step_index" not in st.session_state:
         st.session_state.step_index = 0
-
     steps = menu["Recipe"]
     current = st.session_state.step_index
-
     st.subheader(f"Step {current + 1}/{len(steps)}")
     st.info(steps[current])
 
+    # ปุ่ม Previous / Next / Finish
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("⬅️ ขั้นก่อนหน้า", disabled=(current == 0)):
+        if st.button("⬅️ Previous", disabled=(current == 0)):
             st.session_state.step_index -= 1
             st.rerun()
 
     with col2:
-        if st.button("➡️ ขั้นต่อไป"):
-            if current + 1 < len(steps):
+        if current < len(steps) - 1:  # ถ้าไม่ใช่ Step สุดท้าย
+            if st.button("➡️ Next"):
                 st.session_state.step_index += 1
                 st.rerun()
-            else:
+        else:  # ถ้าเป็น Step สุดท้าย
+            if st.button("✅ Finish"):
                 st.balloons()
                 st.success("🎉 เสร็จเรียบร้อย! พร้อมเสิร์ฟ!")
+                # รีเซ็ตกลับหน้า Home
+                st.session_state.page = "home"
                 st.session_state.step_index = 0
+                st.session_state.PickedMenu = None
+                st.rerun()
 
+    # ปุ่มกลับหน้าเมนู
     if st.button("🏠 กลับหน้าเมนู"):
         st.session_state.page = "home"
         st.session_state.step_index = 0
+        st.session_state.PickedMenu = None
         st.rerun()
+
 
 if st.session_state.page == "home":
     HomePage()
